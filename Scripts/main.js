@@ -1,7 +1,8 @@
 nova.commands.register("shellTools.promptFilter", promptFilter);
 
 function promptFilter(editor) {
-    nova.workspace.showInputPanel("Command", {}, (command) => {
+    var command = nova.config.get('gareth.computer.ShellTools.lastCommand');
+    nova.workspace.showInputPanel("Command", { value: command }, (command) => {
         if (command) {
             filter(command, editor);
         }
@@ -19,6 +20,9 @@ function filter(command, editor) {
         editor.edit((e) => {
             e.replace(range, formatted);
         });
+    })
+    .then(() => {
+        nova.config.set('gareth.computer.ShellTools.lastCommand', command);
     })
     .catch((error) => {
         nova.workspace.showErrorMessage(error);
