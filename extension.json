@@ -1,0 +1,27 @@
+{
+    "identifier": "computer.gareth.ShellTools",
+    "name": "Shell Tools",
+    "organization": "Gareth Redman",
+    "description": "Edit text using shell commands",
+    "version": "1.0",
+    "categories": ["commands"],
+
+    "main": "main.js",
+
+    "activationEvents": [
+        "*"
+    ],
+
+    "entitlements": {
+        "filesystem": "readonly", "process": true
+    },
+
+    "commands": {
+        "editor": [
+            {
+                "title": "Filter with command",
+                "command": "shellTools.promptFilter"
+            }
+        ]
+    }
+}
