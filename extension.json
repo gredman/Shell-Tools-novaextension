@@ -16,11 +16,26 @@
         "filesystem": "readonly", "process": true
     },
 
+    "config": [
+        {
+            "key": "computer.gareth.ShellTools.runSelection.prefix",
+            "title": "Run Selection Prefix",
+            "description": "Inserted before command output",
+            "type": "string",
+            "default": "> "
+        }
+    ],
+
     "commands": {
         "editor": [
             {
-                "title": "Filter with command",
+                "title": "Filter with…",
                 "command": "shellTools.promptFilter"
+            },
+            {
+                "title": "Run Selection",
+                "command": "shellTools.runSelection",
+                "when": "editorHasSelection"
             }
         ]
     }
