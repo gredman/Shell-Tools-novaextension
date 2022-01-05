@@ -18,3 +18,19 @@ All commands will be executed using `/bin/sh` (or whichever shell you choose in 
 ### Configuration
 
 To configure global preferences, open **Extensions → Extension Library...** then select Shell Tools' **Preferences** tab.
+
+### Examples
+
+## Filters
+
+- Remove lines starting with '#': `grep -v '^#'`
+- Sort lines and remove duplicates: `sort | uniq`
+- Base64 encode: `base64`
+- Swift Format: `swiftformat`
+
+## Inserts
+
+- Timestamp: `date`
+- New UUID: `uuidgen`
+- Full path to an executable: `which ruby`
+- Math: `echo $(( 1 + 1 ))`
