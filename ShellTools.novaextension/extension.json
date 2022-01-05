@@ -29,13 +29,17 @@
     "commands": {
         "editor": [
             {
-                "title": "Filter with…",
+                "title": "Filter Text…",
                 "command": "shellTools.promptFilter"
             },
             {
                 "title": "Run Selection",
                 "command": "shellTools.runSelection",
                 "when": "editorHasSelection"
+            },
+            {
+                "title": "Insert Output…",
+                "command": "shellTools.insertOutput"
             }
         ]
     }

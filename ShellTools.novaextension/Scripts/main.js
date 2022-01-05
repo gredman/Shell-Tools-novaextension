@@ -1,9 +1,19 @@
 nova.commands.register("shellTools.promptFilter", promptFilter);
 nova.commands.register("shellTools.runSelection", runSelection);
+nova.commands.register("shellTools.insertOutput", insertOutput);
+
+var LAST_FILTER_COMMAND_KEY = "gareth.computer.ShellTools.lastFilterCommand";
+var LAST_INSERT_COMMAND_KEY = "gareth.computer.ShellTools.lastInsertCommand";
+var RUN_SELECTION_OUTPUT_PREFIX_KEY = "computer.gareth.ShellTools.runSelection.prefix";
+
+var COMMAND_INPUT_LABEL_TEXT = "Command:";
+var COMMAND_INPUT_FILTER_PROMPT = "Filter";
+var COMMAND_INPUT_INSERT_PROMPT = "Insert";
 
 function promptFilter(editor) {
-    var command = nova.config.get('gareth.computer.ShellTools.lastCommand');
-    nova.workspace.showInputPanel("Command", { value: command }, (command) => {
+    var command = nova.config.get(LAST_FILTER_COMMAND_KEY);
+    var options = { value: command, prompt: COMMAND_INPUT_FILTER_PROMPT };
+    nova.workspace.showInputPanel(COMMAND_INPUT_LABEL_TEXT, options, (command) => {
         if (command) {
             filter(command, editor);
         }
@@ -23,7 +33,7 @@ function filter(command, editor) {
         });
     })
     .then(() => {
-        nova.config.set('gareth.computer.ShellTools.lastCommand', command);
+        nova.config.set(LAST_FILTER_COMMAND_KEY, command);
     })
     .catch((error) => {
         nova.workspace.showErrorMessage(error);
@@ -97,7 +107,7 @@ function runSelection(editor) {
     var range = editor.selectedRange;
     var command = editor.getTextInRange(range);
     var process = new Process("/bin/sh", { args: ["-c", command] });
-    var prefix = nova.config.get("computer.gareth.ShellTools.runSelection.prefix");
+    var prefix = nova.config.get(RUN_SELECTION_OUTPUT_PREFIX_KEY);
     Promise.execute(process).then((output) => {
         var formatted = output;
         if (formatted.endsWith("\n")) {
@@ -109,6 +119,36 @@ function runSelection(editor) {
         editor.edit((e) => {
             e.insert(range.end, "\n" + formatted);
         });
+    })
+    .catch((error) => {
+        nova.workspace.showErrorMessage(error);
+    });
+}
+
+function insertOutput(editor) {
+    var command = nova.config.get(LAST_INSERT_COMMAND_KEY);
+    var options = { value: command, prompt: COMMAND_INPUT_INSERT_PROMPT };
+    nova.workspace.showInputPanel(COMMAND_INPUT_LABEL_TEXT, options, (command) => {
+        if (command) {
+            insert(command, editor);
+        }
+    });
+}
+
+function insert(command, editor) {
+    var range = editor.selectedRange;
+    var process = new Process("/bin/sh", { args: ["-c", command] });
+    Promise.execute(process).then((output) => {
+        var formatted = output;
+        if (formatted.endsWith("\n")) {
+            formatted = formatted.substring(0, formatted.length-1);
+        }
+        editor.edit((e) => {
+            e.insert(range.end, formatted);
+        });
+    })
+    .then(() => {
+        nova.config.set(LAST_INSERT_COMMAND_KEY, command);
     })
     .catch((error) => {
         nova.workspace.showErrorMessage(error);

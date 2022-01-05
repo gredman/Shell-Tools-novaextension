@@ -2,15 +2,18 @@
 
 ## Usage
 
-Two commands are currently available:
-- **Editor → Shell Tools → Filter with…**
+Three commands are currently available:
+- **Editor → Shell Tools → Filter Text…**
 - **Editor → Shell Tools → Run Selection**
+- **Editor → Shell Tools → Insert Output…**
 
-**Filter with…** will ask for a shell command, then take the current selection, pipe it though that command, and replace the selection with the command output. If nothing is selected, the entire document will be filtered.
+**Filter Text…** will ask for a shell command, then take the current selection, pipe it though that command, and replace the selection with the command output. If nothing is selected, the entire document will be filtered.
 
 **Run Selection** will execute the current selection as a shell command.
 
-Both commands will be executed using `/bin/sh` so complex commands like loops and pipelines *should* work fine.
+**Insert Output…** will ask for a shell command and insert the output at the current cursor position.
+
+All commands will be executed using `/bin/sh` so you can use complex commands like loops and pipelines.
 
 ### Configuration
 
