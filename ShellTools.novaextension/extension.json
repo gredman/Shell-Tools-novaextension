@@ -44,13 +44,13 @@
                 "command": "shellTools.promptFilter"
             },
             {
+                "title": "Insert Output…",
+                "command": "shellTools.insertOutput"
+            },
+            {
                 "title": "Run Selection",
                 "command": "shellTools.runSelection",
                 "when": "editorHasSelection"
-            },
-            {
-                "title": "Insert Output…",
-                "command": "shellTools.insertOutput"
             }
         ]
     }
