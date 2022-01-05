@@ -2,6 +2,7 @@ nova.commands.register("shellTools.promptFilter", promptFilter);
 nova.commands.register("shellTools.runSelection", runSelection);
 nova.commands.register("shellTools.insertOutput", insertOutput);
 
+var SHELL_PATH_KEY = "computer.gareth.ShellTools.shell.path";
 var LAST_FILTER_COMMAND_KEY = "gareth.computer.ShellTools.lastFilterCommand";
 var LAST_INSERT_COMMAND_KEY = "gareth.computer.ShellTools.lastInsertCommand";
 var RUN_SELECTION_OUTPUT_PREFIX_KEY = "computer.gareth.ShellTools.runSelection.prefix";
@@ -25,7 +26,8 @@ function filter(command, editor) {
         ? editor.selectedRange
         : new Range(0, editor.document.length);
 
-    var process = new Process("/bin/sh", { args: ["-c", command] });
+    var shell = nova.config.get(SHELL_PATH_KEY);
+    var process = new Process(shell, { args: ["-c", command] });
     var text = editor.getTextInRange(range);
     Promise.filter(process, text).then((formatted) => {
         editor.edit((e) => {
@@ -106,7 +108,8 @@ Promise.execute = (process) => {
 function runSelection(editor) {
     var range = editor.selectedRange;
     var command = editor.getTextInRange(range);
-    var process = new Process("/bin/sh", { args: ["-c", command] });
+    var shell = nova.config.get(SHELL_PATH_KEY);
+    var process = new Process(shell, { args: ["-c", command] });
     var prefix = nova.config.get(RUN_SELECTION_OUTPUT_PREFIX_KEY);
     Promise.execute(process).then((output) => {
         var formatted = output;
@@ -137,7 +140,8 @@ function insertOutput(editor) {
 
 function insert(command, editor) {
     var range = editor.selectedRange;
-    var process = new Process("/bin/sh", { args: ["-c", command] });
+    var shell = nova.config.get(SHELL_PATH_KEY);
+    var process = new Process(shell, { args: ["-c", command] });
     Promise.execute(process).then((output) => {
         var formatted = output;
         if (formatted.endsWith("\n")) {

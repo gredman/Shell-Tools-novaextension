@@ -13,7 +13,7 @@ Three commands are currently available:
 
 **Insert Output…** will ask for a shell command and insert the output at the current cursor position.
 
-All commands will be executed using `/bin/sh` so you can use complex commands like loops and pipelines.
+All commands will be executed using `/bin/sh` (or whichever shell you choose in the configuration) so you can use complex commands like loops and pipelines.
 
 ### Configuration
 
