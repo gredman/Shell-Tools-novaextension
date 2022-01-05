@@ -6,6 +6,10 @@
     "version": "1.0",
     "categories": ["commands"],
 
+    "homepage": "https://github.com/gredman/Shell-Tools-novaextension",
+    "bugs": "https://github.com/gredman/Shell-Tools-novaextension/issues",
+    "repository": "https://github.com/gredman/Shell-Tools-novaextension",
+
     "main": "main.js",
 
     "activationEvents": [
