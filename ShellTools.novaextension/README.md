@@ -9,7 +9,7 @@ Three commands are currently available:
 
 **Filter Text…** will ask for a shell command, then take the current selection, pipe it though that command, and replace the selection with the command output. If nothing is selected, the entire document will be filtered.
 
-**Insert Output…** will ask for a shell command and insert the output at the current cursor position.
+**Insert Output…** will ask for a shell command and insert the output at the current cursor position, overwriting the current selection.
 
 **Run Selection** will execute the current selection as a shell command.
 
