@@ -133,8 +133,29 @@ function insertOutput(editor) {
     var options = { value: command, prompt: COMMAND_INPUT_INSERT_PROMPT };
     nova.workspace.showInputPanel(COMMAND_INPUT_LABEL_TEXT, options, (command) => {
         if (command) {
-            insert(command, editor);
+            replace(command, editor);
         }
+    });
+}
+
+function replace(command, editor) {
+    var range = editor.selectedRange;
+    var shell = nova.config.get(SHELL_PATH_KEY);
+    var process = new Process(shell, { args: ["-c", command] });
+    Promise.execute(process).then((output) => {
+        var formatted = output;
+        if (formatted.endsWith("\n")) {
+            formatted = formatted.substring(0, formatted.length-1);
+        }
+        editor.edit((e) => {
+            e.replace(range, formatted);
+        });
+    })
+    .then(() => {
+        nova.config.set(LAST_INSERT_COMMAND_KEY, command);
+    })
+    .catch((error) => {
+        nova.workspace.showErrorMessage(error);
     });
 }
 
